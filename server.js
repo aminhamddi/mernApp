@@ -1,25 +1,31 @@
+require('dotenv').config();
+
+
 const express = require('express');
+const connectDB = require('./config/db');
+
+
+// Connexion à la base de données
+connectDB();
+
 const app = express();
 const PORT = 3000;
-
-// Cours MERN - Semaine 2 : Structuration de l’API
-
-// On importe notre nouveau routeur
-const articleRoutes = require('./routes/articleRoutes');
 
 // Middleware pour parser le JSON
 app.use(express.json());
 
-// Route GET de base (reste ici car elle est générale)
+// Routes
+const articleRoutes = require('./routes/articleRoutes');
+const userRoutes = require('./routes/userRoutes');
+
+app.use('/api/articles', articleRoutes); // ✅ Fixed: lowercase 'articles'
+app.use('/api/users', userRoutes);
+// Route de test
 app.get('/', (req, res) => {
-  res.status(200).send('<h1>Page d\'accueil de notre API de Blog !</h1>');
+  res.json({ message: 'Serveur Express fonctionne !' });
 });
 
-// --- NOUVEAU : Utilisation du routeur ---
-// Express utilisera le routeur 'articleRoutes' pour toute requête
-// commençant par '/api/articles'
-app.use('/api/articles', articleRoutes);
-
+// Démarrer le serveur
 app.listen(PORT, () => {
-  console.log(`Serveur démarré sur http://localhost:${PORT}`);
+  console.log(`Serveur démarré sur le port ${PORT}`);
 });

@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-// On importe les fonctions du controleur
-const { testApi, createArticle } = require('../controllers/userController');
+const { createUser, getAllUsers } = require('../controllers/userController');
 
-// Définition des routes
-// Note : Le chemin '/' ici correspondra à la racine définie dans server.js
+// Route pour créer un nouvel utilisateur
+router.post('/', createUser);
 
-// Route GET pour /api/test (devient /test dans ce routeur)
-router.get('/test', testApi);
+// Route pour récupérer tous les utilisateurs
+router.get('/', getAllUsers);
 
-// Route POST pour /api/articles (devient / dans ce routeur)
-router.post('/', createArticle);
-
-// On exporte le routeur pour l’utiliser dans server.js
 module.exports = router;
